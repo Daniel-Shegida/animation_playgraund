@@ -1,4 +1,4 @@
-# animation_playgraund
+# animation_playground
 
 A new Flutter project.
 
