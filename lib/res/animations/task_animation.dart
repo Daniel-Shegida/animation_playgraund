@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 class TaskAnimation extends StatefulWidget {
   final AnimationController animationController;
 
-  const TaskAnimation({required this.animationController});
+  const TaskAnimation({Key? key, required this.animationController})
+      : super(key: key);
 
   @override
   _TaskAnimationState createState() => _TaskAnimationState();
 }
 
-class _TaskAnimationState extends State<TaskAnimation> with SingleTickerProviderStateMixin {
+class _TaskAnimationState extends State<TaskAnimation>
+    with SingleTickerProviderStateMixin {
   late AnimationController controller = widget.animationController;
 
   late Animation<double> _animation;
-
 
   @override
   void initState() {
@@ -52,8 +53,7 @@ class _TaskAnimationState extends State<TaskAnimation> with SingleTickerProvider
                       color: Colors.red,
                       size: 30,
                     ),
-                    onPressed: (){}
-                    ),
+                    onPressed: () {}),
               ),
               const Text("rotate animation (вроде как обычный Footransition)"),
               Transform.rotate(
