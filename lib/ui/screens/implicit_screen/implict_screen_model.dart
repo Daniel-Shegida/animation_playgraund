@@ -1,4 +1,4 @@
 import 'package:elementary/elementary.dart';
 
-/// Model of [NumberWidgetModel]
+/// Model of [ImplicitWidgetModel]
 class ImplicitModel extends ElementaryModel {}

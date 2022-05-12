@@ -14,17 +14,18 @@ class ExplicitWidgetModel extends WidgetModel<ExplicitScreen, ExplicitModel>
     implements IExplicitWidgetModel {
   ExplicitWidgetModel(ExplicitModel model) : super(model);
 
-  late final EntityStateNotifier<String> _loadState;
+  late final StateNotifier<double> _loadState = StateNotifier<double>();
 
   @override
-  ListenableState<EntityState<String>> get loadState => _loadState;
+  StateNotifier<double> get loadState => _loadState;
 
   @override
-  Future<void> startAnimation() async {}
+  Future<void> startAnimation() async {
+  }
 
   @override
   void initWidgetModel() {
-    _loadState = EntityStateNotifier<String>.value('');
+    _loadState.accept(24);
     super.initWidgetModel();
   }
 
@@ -37,7 +38,7 @@ class ExplicitWidgetModel extends WidgetModel<ExplicitScreen, ExplicitModel>
 
 /// Interface of [ExplicitWidgetModel].
 abstract class IExplicitWidgetModel extends IWidgetModel {
-  ListenableState<EntityState<String>> get loadState;
+  StateNotifier<double> get loadState;
 
   /// action for [floatingActionButton]
   Future<void> startAnimation();

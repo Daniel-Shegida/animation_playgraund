@@ -1,8 +1,8 @@
+import 'package:animation_playgraund/res/animations/task_animation.dart';
 import 'package:animation_playgraund/ui/screens/implicit_screen/implict_screen_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 
-/// Main Screen
 class ImplicitScreen extends ElementaryWidget<IImplicitScreenWidgetModel> {
   const ImplicitScreen({
     Key? key,
@@ -12,16 +12,16 @@ class ImplicitScreen extends ElementaryWidget<IImplicitScreenWidgetModel> {
   @override
   Widget build(IImplicitScreenWidgetModel wm) {
     return Scaffold(
-      appBar: AppBar(
-          // title: const Text(Strings.title),
-          ),
+      appBar: AppBar(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          // возможно стоило разделить это в виджеты или приватные виджеты
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              TaskAnimation(
+                animationController: wm.controller,
+              ),
               Expanded(
                 child: Container(
                   color: Colors.red,
@@ -31,25 +31,19 @@ class ImplicitScreen extends ElementaryWidget<IImplicitScreenWidgetModel> {
           ),
         ),
       ),
-      floatingActionButton: EntityStateNotifierBuilder<String>(
-        listenableEntityState: wm.factState,
-        loadingBuilder: (_, data) => const _SendRequestButton(
-          iconData: Icons.sync_problem,
-        ),
-        builder: (_, data) => _SendRequestButton(
-          onPressed: wm.sendRequest,
-          iconData: Icons.not_started,
-        ),
+      floatingActionButton: _StartButton(
+        onPressed: wm.start,
+        iconData: Icons.not_started,
       ),
     );
   }
 }
 
-class _SendRequestButton extends StatelessWidget {
+class _StartButton extends StatelessWidget {
   final IconData iconData;
   final VoidCallback? onPressed;
 
-  const _SendRequestButton({
+  const _StartButton({
     Key? key,
     required this.iconData,
     this.onPressed,
@@ -59,7 +53,7 @@ class _SendRequestButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: onPressed,
-      tooltip: 'send',
+      tooltip: 'start',
       child: Icon(iconData),
     );
   }
