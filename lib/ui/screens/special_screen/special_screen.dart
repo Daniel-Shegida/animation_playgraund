@@ -1,3 +1,4 @@
+import 'package:animation_playgraund/res/animations/skeleton_animation.dart';
 import 'package:animation_playgraund/ui/screens/special_screen/special_screen_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -11,34 +12,40 @@ class SpecialScreen extends ElementaryWidget<ISpecialWidgetModel> {
   @override
   Widget build(ISpecialWidgetModel wm) {
     return Scaffold(
-      appBar: AppBar(
-          // title: const Text(Strings.title),
-          ),
+      appBar: AppBar(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          // возможно стоило разделить это в виджеты или приватные виджеты
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Container(
-                  color: Colors.red,
+                child: SkeletonAnimation(
+                  shimmerColor: Colors.grey,
+                  borderRadius: BorderRadius.circular(20),
+                  shimmerDuration: 1000,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey[300]!,
+                            blurRadius: 30,
+                            offset: const Offset(0, 10))
+                      ],
+                    ),
+                    margin: const EdgeInsets.only(top: 40),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
       ),
-      floatingActionButton: EntityStateNotifierBuilder<String>(
-        listenableEntityState: wm.factState,
-        loadingBuilder: (_, data) => const _SendRequestButton(
-          iconData: Icons.sync_problem,
-        ),
-        builder: (_, data) => _SendRequestButton(
-          onPressed: wm.sendRequest,
+      floatingActionButton:  _SendRequestButton(
+          onPressed: wm.start,
           iconData: Icons.not_started,
-        ),
       ),
     );
   }
@@ -58,7 +65,7 @@ class _SendRequestButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: onPressed,
-      tooltip: 'send',
+      tooltip: 'start',
       child: Icon(iconData),
     );
   }

@@ -10,20 +10,40 @@ ImplicitWidgetModel implicitWidgetModelFactory(BuildContext context) {
 
 /// WidgetModel for [ImplicitScreen]
 class ImplicitWidgetModel extends WidgetModel<ImplicitScreen, ImplicitModel>
+    with SingleTickerProviderWidgetModelMixin
     implements IImplicitScreenWidgetModel {
   ImplicitWidgetModel(ImplicitModel model) : super(model);
 
   late final EntityStateNotifier<String> _factState;
 
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..repeat();
+
+  @override
+  void start(){
+    if (_controller.isAnimating) {
+      _controller.stop();
+    }
+    else if (_controller.isCompleted){
+      _controller.reset();
+    }
+    else {
+      _controller.forward();
+    }
+    }
+
   @override
   ListenableState<EntityState<String>> get factState => _factState;
 
   @override
-  Future<void> sendRequest() async {}
+  AnimationController get controller => _controller;
 
   @override
   void initWidgetModel() {
     _factState = EntityStateNotifier<String>.value('Strings.initFact');
+
     super.initWidgetModel();
   }
 
@@ -38,6 +58,9 @@ class ImplicitWidgetModel extends WidgetModel<ImplicitScreen, ImplicitModel>
 abstract class IImplicitScreenWidgetModel extends IWidgetModel {
   ListenableState<EntityState<String>> get factState;
 
+  /// controller for implicit animations
+  AnimationController get controller;
+
   /// action for [floatingActionButton]
-  Future<void> sendRequest();
+  void start();
 }
